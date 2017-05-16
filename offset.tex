@@ -102,9 +102,11 @@ t^2 \left(3 \alpha  (t-1)^2-3 \beta  (\Delta +1) (t-1)^2+\Delta  t (2 t-3)\right
 
 and therefore an error function
 
-\begin{dmath}E(\mathbf{B_A},\mathbf{B_B}) = \int_{0}^{1}(\norm{\mathbf{B_A}(t)\cdot\mathbf{B_B}(t)} - \delta^2)^2 dt = \frac{1}{30030}\left(
-1161 (\alpha -\beta )^4 - 36 (129 \beta +148) \delta  (\alpha -\beta )^3 + 18 \left(387 \beta ^2+888 \beta +146\right) \delta ^2 (\alpha -\beta )^2 - 4 (9 \beta  (3 \beta  (43 \beta +148)+146)-2138) \delta ^3 (\alpha -\beta ) (\beta  (9 \beta  (\beta  (129 \beta +592)+292)-8552)+2916) \delta ^4\right)
-\end{dmath}
+\begin{multline}E(\mathbf{B_A},\mathbf{B_B}) = \int_{0}^{1}(\norm{\mathbf{B_A}(t)\cdot\mathbf{B_B}(t)} - \delta^2)^2 dt = \frac{1}{30030}\left(
+1161 (\alpha -\beta )^4 - 36 (129 \beta +148) \delta  (\alpha -\beta )^3 + \right. \\
+\left. 18 \left(387 \beta ^2+888 \beta +146\right) \delta ^2 (\alpha -\beta )^2 - 4 (9 \beta  (3 \beta  (43 \beta +148)+146)-2138) \delta ^3 (\alpha -\beta ) \right.\\
+\left.  (\beta  (9 \beta  (\beta  (129 \beta +592)+292)-8552)+2916) \delta ^4\right)
+\end{multline}
 
 This looks horrific, but it's only a quartic, and is easily optimizable. Rather than solving the differential equation for the general case, let's be practical, remember that $\alpha$ and $\delta$ will be given and go for a numerical method to minimize the error function.
 
@@ -146,15 +148,15 @@ As an example, plugging in $\alpha = 0.55, \Delta = 1$:
 
 Thankfully, we find by inspection that the optimal value of $\beta$ given $\alpha$ and $\Delta$, $\beta(\alpha, \Delta)$ turns out to be pretty much linear in both $\alpha$ and $\Delta$ when $\alpha \ge 0.3$. A very pleasing result is:
 
-\begin{dmath}
+\begin{equation}
 \beta(\alpha,1) = 0.275985 + \frac{\alpha}{2}
-\end{dmath}
+\end{equation}
 
 Note that this gives exactly the answer given by our Newton-Raphson method above. A more general, but less accurate, approximation is:
 
-\begin{dmath}\label{approx}
+\begin{equation}\label{approx}
 \beta(\alpha, \delta) = 0.513216 \alpha -0.025407 \delta+0.296638
-\end{dmath}
+\end{equation}
 
 \section{Inner offsetting of a unit Bezier}
 
@@ -175,7 +177,7 @@ A very similar pattern applies, but this time we construct $\mathbf{B_B}$ as
 $\mathbf{a} = (0, 1-\delta, \mathbf{d} = (1-\delta, 0)$
 and the Newton step $\frac{E'(\mathbf{B_A},\mathbf{B_B})}{E''(\mathbf{B_A},\mathbf{B_B})}$ is
 
-\begin{dmath}
+\begin{multline}
 \frac{\left(
 \begin{matrix}
 18 \alpha ^2 \left(414 \beta  (\delta -1)^2+244 (\delta -1)^2\right)+8 \alpha  \left(1098 \beta  (\delta -1)^2-108 (\delta -1)^2\right)+ \\
@@ -187,7 +189,7 @@ and the Newton step $\frac{E'(\mathbf{B_A},\mathbf{B_B})}{E''(\mathbf{B_A},\math
   72 \left(73 \delta ^2-718 \delta +548\right) (\delta -1)^2
   \end{matrix}\right)
 }
-\end{dmath}
+\end{multline}
 
 Equally, we can invert our approximation \ref{approx} above, giving:
 
@@ -201,21 +203,21 @@ Real-world curves are not unit curves $(0, 1)\cdots(1, 0)$. However, we can alwa
 
 Now we have $\mathbf{a} = (0, 1+\delta), \mathbf{d} = (x+\delta, 0)$. Following exactly the procedure above, $\norm{\mathbf{B_A}(t)\cdot\mathbf{B_B}(t)}$, the square of the distance between the two curves at point $t$, is
 
-\begin{dmath}
+\begin{multline}
 t^2 \left(\delta  \left(t (2 t-3)-3 \beta  (t-1)^2\right)+3 (t-1)^2 x (\alpha -\beta )\right)^2+(t-1)^2 (\delta +t (\delta +t (-3 \alpha +3 \beta  (\delta +1)-2 \delta )))^2
-\end{dmath}
+\end{multline}
 
 and the total error across the curve is
 
-\begin{dmath}E(\mathbf{B_A},\mathbf{B_B}) = \int_{0}^{1}(\norm{\mathbf{B_A}(t)\cdot\mathbf{B_B}(t)} - \delta^2)^2 dt =
-\frac{
+\begin{multline}E(\mathbf{B_A},\mathbf{B_B}) = \int_{0}^{1}(\norm{\mathbf{B_A}(t)\cdot\mathbf{B_B}(t)} - \delta^2)^2 dt \\
+= \frac{
 \begin{matrix}27 \left(14 x^4+15 x^2+14\right) (\alpha -\beta )^4-9 \delta  (x+1) (\alpha -\beta )^3 (3 (56 \beta +45)+x (-78 \beta +3 (56 \beta +45) x+26)) \\
 + 9 \delta ^2 (\alpha -\beta )^2 \left(566 \beta +9 \beta ^2 (x (33 x+20)+33)+2 \beta  x (283 x+322)+4 x (85-6 x)-24\right) \\
 + 2 (9 \beta  (3 \beta  (43 \beta +148)+146)-2138) \delta ^3 (x+1) (\alpha -\beta ) \\
 + (\beta  (9 \beta  (\beta  (129 \beta +592)+292)-8552)+2916) \delta ^4
 \end{matrix}
 }{30030}
-\end{dmath}
+\end{multline}
 
 Once again, it's only a quartic and three of the variables are given. We can apply the Newton-Raphson method again, giving:
 
@@ -261,9 +263,9 @@ To model this we will assume that the desired distance between curves is a linea
 \end{equation}
 
 And now our error function is 
-\begin{dmath}
+\begin{equation}
 (\norm{\mathbf{B_A}(t)\cdot\mathbf{B_B}(t)} - \delta(t)^2)^2 = x
-\end{dmath}
+\end{equation}
 
 The total integrated error across the curve becomes\dots\ very complicated, but computable. We can apply a similar Newton-Raphson method as above, leading to the functions given in the associated Python script.
 
