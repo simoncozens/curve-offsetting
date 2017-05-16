@@ -33,7 +33,7 @@ class="cmbx-10">T</span>
 where <span class='accentvec'><span 
 class="cmbx-10">ab</span></span> intersects <span class='accentvec'><span 
 class="cmbx-10">cd</span></span>:
-<!--l. 32--><p class="indent" >    <object data="images/offset-1.svg" width="84.78429 " height="86.08057 " type="image/svg+xml"><p>SVG-Viewer needed.</p></object>
+<!--l. 32--><p class="indent" >    <img src="images/offset-1.svg" width="84.78429 " height="86.08057 "/>
 <!--l. 43--><p class="indent" >   The curve tension is given by the mean of the ratios <img 
 src="images/offset0x.png" alt="&#x2225;&#x2225;aabT&#x2225;&#x2225;" > and <img 
 src="images/offset1x.png" alt="&#x2225;&#x2225;ddTc&#x2225;&#x2225;" >. Given the points <tspan font-family="cmbx" font-size="10">a</tspan><tspan font-family="cmmi" font-size="10">,</tspan><tspan font-family="cmbx" font-size="10">d</tspan>
@@ -47,7 +47,7 @@ case.
 <!--l. 49--><p class="noindent" >Consider first the unit Bezier curve <tspan font-family="cmbx" font-size="10">B</tspan><sub><tspan font-family="cmbx" font-size="7">A</tspan></sub> with <tspan font-family="cmbx" font-size="10">a </tspan>= (0<tspan font-family="cmmi" font-size="10">,</tspan>1)<tspan font-family="cmmi" font-size="10">,</tspan><tspan font-family="cmbx" font-size="10">d </tspan>= (1<tspan font-family="cmmi" font-size="10">,</tspan>0) and <tspan font-family="cmbx" font-size="10">c </tspan>and <tspan font-family="cmbx" font-size="10">d </tspan>chosen as orthogonal control
 points with a curve tension <tspan font-family="cmmi" font-size="10">&#x03B1;</tspan>. What are the parameters for a Bezier curve <tspan font-family="cmbx" font-size="10">B</tspan><sub><tspan font-family="cmbx" font-size="7">B</tspan></sub> offsetting this curve on the
 outside at a fixed distance <tspan font-family="cmmi" font-size="10">&#x03B4;</tspan>?
-<!--l. 52--><p class="indent" >    <object data="images/offset-2.svg" width="78.47368 " height="78.47368 " type="image/svg+xml"><p>SVG-Viewer needed.</p></object>
+<!--l. 52--><p class="indent" >    <img src="images/offset-2.svg" width="78.47368 " height="78.47368 "/>
                                                                                       
                                                                                       
 <!--l. 64--><p class="indent" >   Clearly we have <tspan font-family="cmbx" font-size="10">a </tspan>= (0<tspan font-family="cmmi" font-size="10">,</tspan>1 + <tspan font-family="cmmi" font-size="10">&#x03B4;</tspan>)<tspan font-family="cmmi" font-size="10">,</tspan><tspan font-family="cmbx" font-size="10">d </tspan>= (1 + <tspan font-family="cmmi" font-size="10">&#x03B4;,</tspan>0), so it remains to find the curve tension <tspan font-family="cmmi" font-size="10">&#x03B2;</tspan>.
@@ -188,7 +188,7 @@ src="images/offset10x.png" alt="&#x03B2;(&#x03B1;,&#x03B4;) = 0.513216&#x03B1; -
    <h3 class="sectionHead"><span class="titlemark">2   </span> <a 
  id="x1-30002"></a>Inner offsetting of a unit Bezier</h3>
 <!--l. 163--><p class="noindent" >What if we want to go the other way, and find the inner curve at a fixed distance?
-<!--l. 173--><p class="indent" >   <object data="images/offset-3.svg" width="82.38431 " height="90.84732 " type="image/svg+xml"><p>SVG-Viewer needed.</p></object>
+<!--l. 173--><p class="indent" >   <img src="images/offset-3.svg" width="82.38431 " height="90.84732 "/>
 <!--l. 176--><p class="indent" >   A very similar pattern applies, but this time we construct <tspan font-family="cmbx" font-size="10">B</tspan><sub><tspan font-family="cmbx" font-size="7">B</tspan></sub> as <tspan font-family="cmbx" font-size="10">a </tspan>= (0<tspan font-family="cmmi" font-size="10">,</tspan>1 <tspan font-family="cmsy" font-size="10">-</tspan><tspan font-family="cmmi" font-size="10">&#x03B4;,</tspan><tspan font-family="cmbx" font-size="10">d </tspan>= (1 <tspan font-family="cmsy" font-size="10">-</tspan><tspan font-family="cmmi" font-size="10">&#x03B4;,</tspan>0) and the Newton
 step <img 
 src="images/offset11x.png" alt="E&#x2032;(BA,BB)-
@@ -267,7 +267,7 @@ an arbitrary Bezier curve specified by two points and a curve tension parameter.
  id="x1-50004"></a>Offsetting at a linear-gradiated distance</h3>
 <!--l. 246--><p class="noindent" >Strokes in fonts often have a feature called <tspan font-family="cmti" font-size="10">contrast</tspan>, meaning that the horizontal offset is not the same as the
 vertical offset:
-<!--l. 249--><p class="indent" >    <object data="images/offset-4.svg" width="97.04208 " height="78.07367 " type="image/svg+xml"><p>SVG-Viewer needed.</p></object>
+<!--l. 249--><p class="indent" >    <img src="images/offset-4.svg" width="97.04208 " height="78.07367 "/>
 <!--l. 259--><p class="indent" >   To model this we will assume that the desired distance between curves is a linear function of curve time
 <tspan font-family="cmmi" font-size="10">t</tspan>:
    <table 
