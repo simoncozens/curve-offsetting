@@ -50,7 +50,7 @@ def lerp(t,a,b):
   return [int((1-t)*a[0] + t*b[0]), int((1-t)*a[1] + t*b[1])]
 
 def normalizedTunniPoint(a,b):
-  return [b[0],a[1]]
+  return [max(a[0],b[0]),max(a[1],b[1])]
 
 def tension(bez):
   tunniP = lineLineIntersection( *bez )
@@ -63,6 +63,19 @@ def curveWithTension(start, end, tension):
     lerp(tension, start, normalizedTunniPoint(start, end)),
     lerp(tension, end, normalizedTunniPoint(start, end)),
   end]
+
+# Glyphs stuff
+# def arrayToGSPath(bez):
+#   p = GSPath.new()
+#   nodes = map(lambda f: GSNode(NSMakePoint(f[0],f[1])), bez)
+#   nodes[1].type = OFFCURVE
+#   nodes[2].type = OFFCURVE
+#   p.nodes = nodes
+#   return p
+
+# def segToArray(s):
+#   return map(lambda f: [f.x,f.y], s)
+
 # Now the offsetting code
 
 def findBeta(x,alpha,dStart,dEnd):
@@ -78,6 +91,8 @@ def findBeta(x,alpha,dStart,dEnd):
 def offset(bez, d1, d2=None):
   if not d2:
     d2 = d1
+  if bez[0][0] > bez[3][0]:
+    bez = list(reversed(bez))
   tr = unitize(*bez)
   bez2 = applyTransform(bez,tr)
   alpha = tension(bez)
