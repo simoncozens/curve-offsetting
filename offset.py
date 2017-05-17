@@ -101,14 +101,12 @@ def offset(bez, sAngle, eAngle, d1, d2=None):
   tr = unitize(*bez)
   s = [ bez[0][0] + d1 * cos(sAngle), bez[0][1] + d1 * sin(sAngle) ]
   e = [ bez[3][0] + d2 * cos(eAngle), bez[3][1] + d2 * sin(eAngle) ]
-  print(s,e)
   bez2 = applyTransform(bez,tr)
   alpha = tension(bez)
   scaledD1 = d1 / tr["scale"]
   scaledD2 = d2 / tr["scale"]
   scaledS = apply1(s,tr)
   scaledE = apply1(e,tr)
-  print(scaledS, scaledE)
 
   beta = findBeta(bez2[3][0], alpha, scaledS, scaledE, scaledD1, scaledD2)
   if beta < 0 or beta > 1:
@@ -124,5 +122,5 @@ def offset(bez, sAngle, eAngle, d1, d2=None):
 # arr = segToArray(p.segments[0])
 # dStart = 120
 # dEnd   = 60
-# path2 = arrayToGSPath(offset(arr, 0, radians(90), dStart, dEnd))
+# path2 = arrayToGSPath(offset(arr, 0, 0, dStart, dEnd))
 # Glyphs.font.selectedLayers[0].paths.append(path2)
