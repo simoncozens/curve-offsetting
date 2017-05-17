@@ -1,5 +1,7 @@
 # "Offsetting parameterised Bezier curves"
 
+from math import sin,cos,radians
+
 # Preparatory stuff: Simplified affine transforms
 
 # Find a simplified affine transform
@@ -91,18 +93,23 @@ def findBeta(x,a,s,e,dStart,dEnd):
   return b
 
 # And this is the main routine
-def offset(bez, s, e, d1, d2=None):
+def offset(bez, sAngle, eAngle, d1, d2=None):
   if not d2:
     d2 = d1
   if bez[0][0] > bez[3][0]:
     bez = list(reversed(bez))
   tr = unitize(*bez)
+  s = [ bez[0][0] + d1 * cos(sAngle), bez[0][1] + d1 * sin(sAngle) ]
+  e = [ bez[3][0] + d2 * cos(eAngle), bez[3][1] + d2 * sin(eAngle) ]
+  print(s,e)
   bez2 = applyTransform(bez,tr)
-  scaledS = apply1(s,tr)
-  scaledE = apply1(e,tr)
   alpha = tension(bez)
   scaledD1 = d1 / tr["scale"]
   scaledD2 = d2 / tr["scale"]
+  scaledS = apply1(s,tr)
+  scaledE = apply1(e,tr)
+  print(scaledS, scaledE)
+
   beta = findBeta(bez2[3][0], alpha, scaledS, scaledE, scaledD1, scaledD2)
   if beta < 0 or beta > 1:
     raise ValueError
@@ -117,7 +124,5 @@ def offset(bez, s, e, d1, d2=None):
 # arr = segToArray(p.segments[0])
 # dStart = 120
 # dEnd   = 60
-# start = [arr[0][0],      arr[0][1]+dStart]
-# end   = [arr[3][0]+dEnd, arr[3][1]    ]
-# path2 = arrayToGSPath(offset(arr, start, end, dStart, dEnd))
+# path2 = arrayToGSPath(offset(arr, 0, radians(90), dStart, dEnd))
 # Glyphs.font.selectedLayers[0].paths.append(path2)
