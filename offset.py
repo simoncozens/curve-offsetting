@@ -67,10 +67,11 @@ def curveWithTension(start, end, tension):
 # Glyphs stuff
 # def arrayToGSPath(bez):
 #   p = GSPath.new()
-#   nodes = map(lambda f: GSNode(NSMakePoint(f[0],f[1])), bez)
-#   nodes[1].type = OFFCURVE
-#   nodes[2].type = OFFCURVE
+#   nodes = map(lambda f: GSNode(NSMakePoint(f[0],f[1]),OFFCURVE), bez)
+#   nodes[0].type = LINE
+#   nodes[3].type = CURVE
 #   p.nodes = nodes
+#   p.closed = False
 #   return p
 
 # def segToArray(s):
