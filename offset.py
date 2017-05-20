@@ -1,20 +1,26 @@
 # "Offsetting parameterised Bezier curves"
 
-from math import sin,cos,radians
+from math import sin,cos,radians,atan2,pi
 
-# Preparatory stuff: Simplified affine transforms
+# Preparatory stuff: Affine transforms
+def rotate(pt,angle):
+  return [cos(angle)*pt[0] - sin(angle)*pt[1],sin(angle)*pt[0]+cos(angle)*pt[1]]
 
-# Find a simplified affine transform
 def unitize(a,b,c,d):
-  # Not going to do rotation here, just translation and scaling for now;
-  # assume all points are orthogonal
-  return { "dx": -a[0], "dy": -d[1], "scale": float(a[1]-d[1])}
+  rotationAngle = atan2(b[1]-a[1],b[0]-a[0])
+  a = rotate(a, rotationAngle)
+  b = rotate(b, rotationAngle)
+  c = rotate(c, rotationAngle)
+  d = rotate(d, rotationAngle)
+  return { "rotate": rotationAngle, "dx": -a[0], "dy": -d[1], "scale": float(a[1]-d[1])}
 
 def apply1(a, transform):
+  a = rotate(a,transform["rotate"])
   return [ (a[0]+transform["dx"]) / transform["scale"],
            (a[1]+transform["dy"]) / transform["scale"] ]
 
 def unapply1(a, transform):
+  a = rotate(a,-transform["rotate"])
   return [ (a[0]*transform["scale"])-transform["dx"],
            (a[1]*transform["scale"])-transform["dy"] ]
 
@@ -51,8 +57,22 @@ def pointDistance( a, b):
 def lerp(t,a,b):
   return [int((1-t)*a[0] + t*b[0]), int((1-t)*a[1] + t*b[1])]
 
-def normalizedTunniPoint(a,b):
-  return [max(a[0],b[0]),max(a[1],b[1])]
+def normalizedTunniPoint(a,b, sAngle=None, eAngle=None):
+  if sAngle == None:
+    return [max(a[0],b[0]),max(a[1],b[1])]
+
+  # An offset curve which starts to the north of the original
+  # will have its first BCP east of point 1
+  sHandleAngle = sAngle - pi/2.0
+  # An offset curve which ends to the east of the original
+  # will have its second BCP north of point 1
+  eHandleAngle = eAngle + pi/2.0
+
+  aHandle = [ a[0] + 1 * cos(sHandleAngle), a[1] + 1 * sin(sHandleAngle) ]
+  bHandle = [ b[0] + 1 * cos(eHandleAngle), b[1] + 1 * sin(eHandleAngle) ]
+  print(a,b)
+  print(aHandle, bHandle)
+  return lineLineIntersection(a, aHandle, bHandle, b)
 
 def tension(bez):
   tunniP = lineLineIntersection( *bez )
@@ -60,10 +80,10 @@ def tension(bez):
   percentageP3P4 = pointDistance( bez[3], bez[2] ) / pointDistance( bez[3], tunniP )
   return ( percentageP1P2 + percentageP3P4 ) / 2
 
-def curveWithTension(start, end, tension):
+def curveWithTension(start, end, tension,sAngle, eAngle):
   return [start,
-    lerp(tension, start, normalizedTunniPoint(start, end)),
-    lerp(tension, end, normalizedTunniPoint(start, end)),
+    lerp(tension, start, normalizedTunniPoint(start, end, sAngle, eAngle)),
+    lerp(tension, end, normalizedTunniPoint(start, end, sAngle, eAngle)),
   end]
 
 # Glyphs stuff
@@ -96,25 +116,28 @@ def findBeta(x,a,s,e,dStart,dEnd):
 def offset(bez, sAngle, eAngle, d1, d2=None):
   if not d2:
     d2 = d1
-  if bez[0][0] > bez[3][0]:
-    bez = list(reversed(bez))
   tr = unitize(*bez)
   s = [ bez[0][0] + d1 * cos(sAngle), bez[0][1] + d1 * sin(sAngle) ]
   e = [ bez[3][0] + d2 * cos(eAngle), bez[3][1] + d2 * sin(eAngle) ]
   bez2 = applyTransform(bez,tr)
-  alpha = tension(bez)
+  alpha = tension(bez2)
   scaledD1 = d1 / tr["scale"]
   scaledD2 = d2 / tr["scale"]
   scaledS = apply1(s,tr)
   scaledE = apply1(e,tr)
 
+  # 
+
   beta = findBeta(bez2[3][0], alpha, scaledS, scaledE, scaledD1, scaledD2)
   if beta < 0 or beta > 1:
     raise ValueError
+  print(s,e)
   offsetCurve = curveWithTension(
     s,
     e,
-    beta
+    beta,
+    sAngle,
+    eAngle
   )
   return offsetCurve
 
